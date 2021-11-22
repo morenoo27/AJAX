@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GODOS</title>
+</head>
+<body>
+    <ul id="respuesta"></ul>
+
+    <script>
+        function recupera(){
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState==4 && this.status==200){
+                    recibir(this.responseText);
+                }
+            };
+            xmlhttp.open("GET", "godos.php",true);
+            xmlhttp.send();
+        }
+        
+        recupera();
+
+        function recibir(objeto) {
+            objeto = JSON.parse(objeto);
+
+            generarLista(document.getElementById("respuesta"), objeto.reyesgodos)
+        }
+
+        function generarLista(ul, godos) {
+            
+            godos.map(elemento => {
+                if (elemento.hasOwnProperty("nombre")) {
+                    //priumero el nodo
+                    texto = document.createTextNode(elemento.nombre)
+
+                    li = document.createElement('li') 
+                    li.appendChild(texto)
+
+                    //vinculo
+                    ul.appendChild(li)
+
+                    //creamos una nueva ul, porque tiene hijos
+                    nuevaUl = document.createElement('ul')
+
+                    ul.appendChild(nuevaUl)
+                    //recorremos esso hijos
+                    generarLista(nuevaUl, elemento.hijos)
+                } else {
+
+                    //CREACION DE LI CON TEXTO Y SU VINCULO
+                    texto = document.createTextNode(elemento)
+
+                    li = document.createElement('li') 
+                    li.appendChild(texto)
+
+                    ul.appendChild(li)
+                }
+            })
+        }
+        
+    </script>
+</body>
+</html>
+
+</html>
