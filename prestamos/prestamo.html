@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <p>Calculo de la cuota de un prestamo</p>
+    <form>
+        <input type="number" name="capital" id="capital" placeholder="capital solicitado"/><br/>
+        <input type="number" name="interes" id="interes" placeholder="interes anual"/><br/>
+        <input type="number" name="meses" id="meses" placeholder="plazo (meses)"/><br/>
+        <input type="button" name="calcular" value="Calcular" onclick="muestraPrestamo(document.getElementById('capital').value, document.getElementById('interes').value,document.getElementById('meses').value )"/>
+    </form>
+
+    <p>Su cuota mensual sera de: <span id="result"></span> Euros</p>
+
+    <script>
+
+        function muestraPrestamo (capit, inter, mese){
+
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState==4 && this.status==200){
+                    document.getElementById("result").innerHTML=this.responseText;
+                }
+            };
+            xmlhttp.open("GET", "algoritmo.php?capital="+capit+"&interes="+inter+"&meses="+mese,true);
+            xmlhttp.send();
+        }
+
+    </script>
+
+</body>
+</html>
